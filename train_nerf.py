@@ -339,8 +339,8 @@ def train():
                 #####           end            #####
 
                 # Rest is logging
-                if total_iters%args.i_weights==0:
-                    path = os.path.join(basedir, expname, '{:06d}.tar'.format(total_iters))
+                if cur_iter%args.i_weights==0:
+                    path = os.path.join(basedir, expname, '{:06d}.tar'.format(cur_iter))
                     torch.save({
                         'global_step': global_step,
                         'network_fn_state_dict': render_kwargs_train['network_fn'].state_dict(),
@@ -349,7 +349,7 @@ def train():
                     }, path)
                     print('Saved checkpoints at', path)
 
-                if total_iters%args.i_video==0 and total_iters > 0:
+                if cur_iter%args.i_video==0 and cur_iter > 0:
                     # Turn on testing mode
                     with torch.no_grad():
                         rgbs, disps = render_path(render_poses, hwf, K, args.chunk, render_kwargs_test)
