@@ -2,8 +2,12 @@
 expname: lego_hf
 # where to store ckpts and logs
 basedir: ./logs
+# dataset mode
+dataset_mode: blender
 # input data directory
 datadir: ./dataset/nerf_synthetic/lego
+# num_threads for loading data on cpu
+num_threads: 8
 
 
 # for testing

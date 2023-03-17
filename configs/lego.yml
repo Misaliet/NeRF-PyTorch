@@ -2,8 +2,12 @@
 expname: blender_paper_lego
 # where to store ckpts and logs
 basedir: ./logs
+# dataset mode
+dataset_mode: blender
 # input data directory
 datadir: ./dataset/nerf_synthetic/lego
+# num_threads for loading data on cpu
+num_threads: 8
 
 
 # for testing
@@ -11,6 +15,8 @@ datadir: ./dataset/nerf_synthetic/lego
 render_only: False
 
 ## training options
+# model
+model_name: NeRF
 #layers in network
 netdepth: 8
 # channels per layer
@@ -92,4 +98,5 @@ i_print: 100
 i_img: 500
 i_weights: 50000
 i_testset: 50000
+i_valset: 2500
 i_video: 50000
