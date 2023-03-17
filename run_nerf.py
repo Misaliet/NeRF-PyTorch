@@ -440,9 +440,9 @@ def train():
 
     
         if i%args.i_print==0:
-            # tqdm.write(f"[TRAIN] Iter: {i} Loss: {loss.item()}  PSNR: {psnr.item()}")
-            log_name = os.path.join(basedir, expname, 'loss.txt')
-            print_current_losses(log_name, i, loss, psnr)
+            tqdm.write(f"[TRAIN] Iter: {i} Loss: {loss.item()}  PSNR: {psnr.item()}")
+            # log_name = os.path.join(basedir, expname, 'loss.txt')
+            # print_current_losses(log_name, i, loss, psnr)
         """
             print(expname, i, psnr.numpy(), loss.numpy(), global_step.numpy())
             print('iter time {:.05f}'.format(dt))
