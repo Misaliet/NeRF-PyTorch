@@ -245,7 +245,7 @@ def train():
     # change iter numbers to epoch numbers
     # iterator = iter(dataset)
     total_iters = args.i_iters + 1
-    epoch = math.ceil(args.i_iters/len(dataset))
+    epoch = math.ceil(args.i_iters/len(dataset)) + 1
     
     print('Begin')
     
