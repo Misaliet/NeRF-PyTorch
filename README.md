@@ -2,7 +2,7 @@
 
 I assume you already know about [NeRF](https://www.matthewtancik.com/nerf) since you are looking for a PyTorch implementation of NeRF. I will skip the introduction of NeRF.
 
-This project is not official, but tries to make it easier to do further research with PyTorch based on NeRF.
+This project is not official, but tries to make it easier to do further research with NeRF based on PyTorch.
 
 ## Motivation:
 
