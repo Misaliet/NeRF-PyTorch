@@ -14,12 +14,9 @@ import matplotlib.pyplot as plt
 import argparse
 import yaml
 
-from load_llff import load_llff_data
-from load_deepvoxels import load_dv_data
-from load_blender import load_blender_data
-from load_LINEMOD import load_LINEMOD_data
+from data import load_llff_data, load_dv_data, load_blender_data, load_LINEMOD_data
 
-from models import Embedder, NeRF
+from models import Embedder, NeRF, TinyNeRF
 from misc import CfgNode, print_current_losses
 from render import render, batchify, render_path
 from render.render_helpers import *
@@ -57,10 +54,15 @@ def create_nerf(args):
     if args.use_viewdirs:
         embeddirs_fn, input_ch_views = get_embedder(args.multires_views, args.i_embed)
     output_ch = 5 if args.N_importance > 0 else 4
-    skips = [4]
-    model = NeRF(D=args.netdepth, W=args.netwidth,
-                 input_ch=input_ch, output_ch=output_ch, skips=skips,
-                 input_ch_views=input_ch_views, use_viewdirs=args.use_viewdirs).to(device)
+    # skips = [4]
+    skips = [args.skips]
+    if args.model_name == 'TinyNeRF':
+        model = TinyNeRF(input_ch=input_ch, input_ch_views=input_ch_views)
+    else:
+        model = NeRF(D=args.netdepth, W=args.netwidth,
+                    input_ch=input_ch, output_ch=output_ch, skips=skips,
+                    input_ch_views=input_ch_views, use_viewdirs=args.use_viewdirs).to(device)
+    
     grad_vars = list(model.parameters())
 
     model_fine = None

@@ -1,5 +1,5 @@
 # experiment name
-expname: blender_paper_lego
+expname: lego_hf
 # where to store ckpts and logs
 basedir: ./logs
 # input data directory
@@ -11,22 +11,24 @@ datadir: ./dataset/nerf_synthetic/lego
 render_only: False
 
 ## training options
+# model
+model_name: NeRF
 #layers in network
-netdepth: 8
+netdepth: 4
 # channels per layer
-netwidth: 256
+netwidth: 128
 # layers in fine network
-netdepth_fine: 8
+netdepth_fine: 4
 # channels per layer in fine network
-netwidth_fine: 256
+netwidth_fine: 128
 # skip connection for position input
-skips: 4
+skips: 1
 
 # batch size (number of random rays per gradient step)
 N_rand: 1024
 
 # learning rate
-lrate: 0.0005
+lrate: 0.005
 # xponential learning rate decay (in 1000 steps)
 lrate_decay: 500
 # number of rays processed in parallel, decrease if running out of memory 
@@ -36,7 +38,7 @@ netchunk: 65536
 # only take random rays from 1 image at a time
 no_batching: True
 #do not reload weights from saved ckpt
-no_reload: False
+no_reload: True
 #specific weights npy file to reload for coarse network
 ft_path: None
 
@@ -87,9 +89,10 @@ spherify: False
 llffhold: 8
 
 # logging/saving options
-i_iters: 200000
+i_iters: 50000
 i_print: 100
 i_img: 500
-i_weights: 50000
-i_testset: 50000
-i_video: 50000
+i_weights: 25000
+i_testset: 5000
+i_valset: 1000
+i_video: 25000

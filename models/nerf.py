@@ -88,3 +88,30 @@ class NeRF(nn.Module):
         idx_alpha_linear = 2 * self.D + 6
         self.alpha_linear.weight.data = torch.from_numpy(np.transpose(weights[idx_alpha_linear]))
         self.alpha_linear.bias.data = torch.from_numpy(np.transpose(weights[idx_alpha_linear+1]))
+
+
+
+class TinyNeRF(nn.Module):
+    def __init__(self, D=3, W=128, input_ch=3, input_ch_views=3, output_ch=4, use_viewdirs=True):
+        super(TinyNeRF, self).__init__()
+        self.D = D
+        self.W = W
+        self.input_ch = input_ch
+        self.input_ch_views = input_ch_views
+        self.use_viewdirs = use_viewdirs
+        
+        if self.use_viewdirs:
+            input_num = input_ch + input_ch_views
+        else:
+            input_num = input_ch
+        self.input = nn.Linear(input_num, W)
+        self.inter = nn.Linear(W, W)
+        self.output = nn.Linear(W, 4)
+        
+        self.relu = F.relu
+
+    def forward(self, x):
+        x = self.relu(self.input(x))
+        x = self.relu(self.inter(x))
+        x = self.output(x)
+        return x
