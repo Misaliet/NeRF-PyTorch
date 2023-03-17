@@ -20,7 +20,7 @@ from load_blender import load_blender_data
 from load_LINEMOD import load_LINEMOD_data
 
 from models import Embedder, NeRF
-from misc import CfgNode
+from misc import CfgNode, print_current_losses
 from render import render, batchify, render_path
 from render.render_helpers import *
 
@@ -438,7 +438,9 @@ def train():
 
     
         if i%args.i_print==0:
-            tqdm.write(f"[TRAIN] Iter: {i} Loss: {loss.item()}  PSNR: {psnr.item()}")
+            # tqdm.write(f"[TRAIN] Iter: {i} Loss: {loss.item()}  PSNR: {psnr.item()}")
+            log_name = os.path.join(basedir, expname, 'loss.txt')
+            print_current_losses(log_name, i, loss, psnr)
         """
             print(expname, i, psnr.numpy(), loss.numpy(), global_step.numpy())
             print('iter time {:.05f}'.format(dt))
