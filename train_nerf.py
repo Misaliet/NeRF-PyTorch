@@ -380,10 +380,9 @@ def train():
                     message = f"[TRAIN] Iter: {cur_iter} Loss: {loss.item()}  PSNR: {psnr.item()}"
                     print_current_losses(log_name, message)
                     pbar.write(message)
-                    pbar.update(cur_iter - pbar.n)
 
                 global_step += 1
-        
+                pbar.update(cur_iter - pbar.n)
                 # pbar.display(message, cur_iter)
                 # pbar.update()
 
