@@ -196,7 +196,8 @@ def train():
     os.makedirs(os.path.join(basedir, expname), exist_ok=True)
     f = os.path.join(basedir, expname, 'args.yml')
     with open(f, 'w') as file:
-        args.dump()
+        dump_temp = args.dump()
+        file.write(dump_temp)
 
     # Create nerf model
     render_kwargs_train, render_kwargs_test, start, grad_vars, optimizer = create_nerf(args)
