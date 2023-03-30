@@ -7,9 +7,11 @@ import numpy as np
 from models import Embedder
 
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # Misc
-img2mse = lambda x, y : torch.mean((x - y).cuda() ** 2)
-mse2psnr = lambda x : -10. * torch.log(x) / torch.log(torch.Tensor([10.]).cuda())
+img2mse = lambda x, y : torch.mean((x - y).to(device) ** 2)
+mse2psnr = lambda x : -10. * torch.log(x) / torch.log(torch.Tensor([10.]).to(device))
 to8b = lambda x : (255*np.clip(x,0,1)).astype(np.uint8)
 
 
@@ -34,9 +36,9 @@ def get_embedder(multires, i=0):
 # Ray helpers
 def get_rays(H, W, K, c2w):
     i, j = torch.meshgrid(torch.linspace(0, W-1, W), torch.linspace(0, H-1, H))  # pytorch's meshgrid has indexing='ij'
-    i = i.t().cuda()
-    j = j.t().cuda()
-    dirs = torch.stack([(i-K[0][2])/K[0][0], -(j-K[1][2])/K[1][1], -torch.ones_like(i).cuda()], -1)
+    i = i.t().to(device)
+    j = j.t().to(device)
+    dirs = torch.stack([(i-K[0][2])/K[0][0], -(j-K[1][2])/K[1][1], -torch.ones_like(i).to(device)], -1)
     # Rotate ray directions from camera frame to the world frame
     rays_d = torch.sum(dirs[..., np.newaxis, :] * c2w[:3,:3], -1)  # dot product, equals to: [c2w.dot(dir) for dir in dirs]
     # Translate camera frame's origin to the world frame. It is the origin of all rays.
@@ -101,7 +103,7 @@ def sample_pdf(bins, weights, N_samples, det=False, pytest=False):
         u = torch.Tensor(u)
 
     # Invert CDF
-    u = u.contiguous().cuda()
+    u = u.contiguous().to(device)
     inds = torch.searchsorted(cdf, u, right=True)
     below = torch.max(torch.zeros_like(inds-1), inds-1)
     above = torch.min((cdf.shape[-1]-1) * torch.ones_like(inds), inds)
