@@ -374,6 +374,8 @@ def train():
                     with torch.no_grad():
                         render_path(torch.Tensor(poses).to(device), hwf, K, args.chunk, render_kwargs_test, gt_imgs=None, savedir=testsavedir)
                     print('Saved test set')
+                    # clean cache (this will cost much GPU space and won't release)
+                    torch.cuda.empty_cache()
 
                 if cur_iter%args.i_print==0:
                     # print(f"[TRAIN] Iter: {cur_iter} Loss: {loss.item()}  PSNR: {psnr.item()}")
