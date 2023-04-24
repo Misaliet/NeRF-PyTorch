@@ -33,8 +33,6 @@ The difference is that:
 
 ### TODO:
 
-Write a separate test script.
-
 Make the code in the render part more readable.
 
 ## How to use
@@ -42,4 +40,7 @@ just type:
 
 ```
 python train_nerf.py --config configs/lego.yml
+```
+```
+python test_nerf.py --config configs/lego.yml
 ```
